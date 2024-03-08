@@ -70,6 +70,6 @@ The project is currently in active development and is regularly updated with new
 
 **V 0.2**: Basic graphical implementation with definition of the game area.
 
-**V 0.3**: 
+**V 0.3**: Moving and animated man target implementation, scorebar and click goal settings. 
 
 
