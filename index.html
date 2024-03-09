@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliccami se ci riesci!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .cliccami {
+            animation: allontanaDalMouse 3s infinite forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <button onmouseover="allontana()" onclick="invertiCoordinate()" class="cliccami" id="cliccami"
+        style="position: absolute; left: 50px; top: 50px;">CLICCAMI</button>
+</body>
+<script>
+    var randomLeft = Math.floor(Math.random() * ((larghezzaPagina-10) + 1));
+    var randomTop = Math.floor(Math.random() * ((altezzaPagina-10) + 1));
+    var larghezzaPagina = window.innerWidth;
+    var altezzaPagina = window.innerHeight;
+
+    function allontana() {
+        var cliccami = document.getElementById("cliccami");
+        var leftPosition = cliccami.offsetLeft;
+        var topPosition = cliccami.offsetTop;
+        var spostamentoX = randomLeft;
+        var spostamentoY = randomTop;
+
+        // Controlla se il pulsante esce a sinistra o a destra della pagina
+        if (leftPosition + spostamentoX < 0) {
+            spostamentoX = -leftPosition;
+        } else if (leftPosition + cliccami.offsetWidth + spostamentoX > larghezzaPagina) {
+            cliccami.style.left = randomLeft  + "px";
+        }
+
+        // Controlla se il pulsante esce sopra o sotto la pagina
+        if (topPosition + spostamentoY < 0) {
+            spostamentoY = -topPosition;
+        } else if (topPosition + cliccami.offsetHeight + spostamentoY > altezzaPagina) {
+            cliccami.style.top = randomTop + "px";
+        }
+
+        cliccami.style.left = leftPosition + spostamentoX + "px";
+        cliccami.style.top = topPosition + spostamentoY + "px";
+    }
+
+    function invertiCoordinate() {
+    var cliccami = document.getElementById("cliccami");
+
+    // Rimuovi temporaneamente l'animazione
+    cliccami.style.animation = "none";
+
+    var leftPosition = cliccami.offsetLeft;
+    var topPosition = cliccami.offsetTop;
+    var larghezzaPulsante = cliccami.offsetWidth;
+    var altezzaPulsante = cliccami.offsetHeight;
+  
+   
+
+    // Inverti le coordinate
+    cliccami.style.left = randomLeft  + "px";
+    cliccami.style.top = randomTop + "px";
+
+    // Reimposta l'animazione
+    setTimeout(function () {
+        cliccami.style.animation = "allontanaDalMouse 3s infinite forwards";
+    }, 10);
+}
+
+</script>
+
+</html>
