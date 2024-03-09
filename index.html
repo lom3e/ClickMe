@@ -8,72 +8,68 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            background-color: #f2f2f2; /* Cambia il colore di sfondo */
         }
 
         .cliccami {
-            animation: allontanaDalMouse 3s infinite forwards;
+            font-size: 20px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            position: absolute;
+            border: none; /* Rimuovi il bordo del pulsante */
+            border-radius: 50%; /* Rendi il pulsante circolare */
+            background-color: crimson;
+            color: #fff; /* Colore del testo */
+            width: 100px; /* Dimensioni del pulsante */
+            height: 100px;
+            cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+            transition: 0.5s ease;
         }
     </style>
 </head>
 
 <body>
-    <button onmouseover="allontana()" onclick="invertiCoordinate()" class="cliccami" id="cliccami"
-        style="position: absolute; left: 50px; top: 50px;">CLICCAMI</button>
+    <button onmouseover="allontana()" onclick="cliccato()" class="cliccami" id="cliccami"
+        style="left: 50px; top: 50px;">CLICCAMI</button>
 </body>
+
 <script>
-    var randomLeft = Math.floor(Math.random() * ((larghezzaPagina-10) + 1));
-    var randomTop = Math.floor(Math.random() * ((altezzaPagina-10) + 1));
+    var click = 0;
     var larghezzaPagina = window.innerWidth;
     var altezzaPagina = window.innerHeight;
 
     function allontana() {
         var cliccami = document.getElementById("cliccami");
-        var leftPosition = cliccami.offsetLeft;
-        var topPosition = cliccami.offsetTop;
-        var spostamentoX = randomLeft;
-        var spostamentoY = randomTop;
+        var spostamentoX = Math.floor(Math.random() * (larghezzaPagina - cliccami.offsetWidth));
+        var spostamentoY = Math.floor(Math.random() * (altezzaPagina - cliccami.offsetHeight));
 
-        // Controlla se il pulsante esce a sinistra o a destra della pagina
-        if (leftPosition + spostamentoX < 0) {
-            spostamentoX = -leftPosition;
-        } else if (leftPosition + cliccami.offsetWidth + spostamentoX > larghezzaPagina) {
-            cliccami.style.left = randomLeft  + "px";
-        }
-
-        // Controlla se il pulsante esce sopra o sotto la pagina
-        if (topPosition + spostamentoY < 0) {
-            spostamentoY = -topPosition;
-        } else if (topPosition + cliccami.offsetHeight + spostamentoY > altezzaPagina) {
-            cliccami.style.top = randomTop + "px";
-        }
-
-        cliccami.style.left = leftPosition + spostamentoX + "px";
-        cliccami.style.top = topPosition + spostamentoY + "px";
+        cliccami.style.left = spostamentoX + "px";
+        cliccami.style.top = spostamentoY + "px";
     }
 
     function invertiCoordinate() {
-    var cliccami = document.getElementById("cliccami");
+        var cliccami = document.getElementById("cliccami");
+        var spostamentoX = Math.floor(Math.random() * (larghezzaPagina - cliccami.offsetWidth));
+        var spostamentoY = Math.floor(Math.random() * (altezzaPagina - cliccami.offsetHeight));
 
-    // Rimuovi temporaneamente l'animazione
-    cliccami.style.animation = "none";
+        cliccami.style.left = cliccami.style.top;
+        cliccami.style.top = spostamentoX + "px";
 
-    var leftPosition = cliccami.offsetLeft;
-    var topPosition = cliccami.offsetTop;
-    var larghezzaPulsante = cliccami.offsetWidth;
-    var altezzaPulsante = cliccami.offsetHeight;
-  
-   
+        setTimeout(function () {
+            cliccami.style.left = spostamentoX + "px";
+            cliccami.style.top = spostamentoY + "px";
+        }, 10);
+    }
 
-    // Inverti le coordinate
-    cliccami.style.left = randomLeft  + "px";
-    cliccami.style.top = randomTop + "px";
-
-    // Reimposta l'animazione
-    setTimeout(function () {
-        cliccami.style.animation = "allontanaDalMouse 3s infinite forwards";
-    }, 10);
-}
-
+    function cliccato() {
+        click++;
+        alert("Bravo, hai cliccato il pulsante! Sei arrivato a " + click + " clic.");
+        var spostamentoX = Math.floor(Math.random() * (larghezzaPagina - cliccami.offsetWidth));
+        var spostamentoY = Math.floor(Math.random() * (altezzaPagina - cliccami.offsetHeight));
+        cliccami.style.left = spostamentoX + "px";
+        cliccami.style.top = spostamentoY + "px";
+    }
 </script>
 
 </html>
