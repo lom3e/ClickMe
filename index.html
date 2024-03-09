@@ -10,66 +10,392 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             overflow: hidden;
-            background-color: #f2f2f2; /* Cambia il colore di sfondo */
+            background-color: #f2f2f2;
+            /* Cambia il colore di sfondo */
         }
 
         .cliccami {
-            font-size: 20px;
+            font-size: 19px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             position: absolute;
-            border: none; /* Rimuovi il bordo del pulsante */
-            border-radius: 50%; /* Rendi il pulsante circolare */
+            border: none;
+            /* Rimuovi il bordo del pulsante */
+            border-radius: 50%;
+            /* Rendi il pulsante circolare */
             background-color: crimson;
-            color: #fff; /* Colore del testo */
-            width: 100px; /* Dimensioni del pulsante */
+            color: #fff;
+            /* Colore del testo */
+            width: 100px;
+            /* Dimensioni del pulsante */
             height: 100px;
-            cursor: pointer; /* Cambia il cursore al passaggio del mouse */
-            transition: 0.5s ease;
+            cursor: pointer;
+            /* Cambia il cursore al passaggio del mouse */
+            transition: 0.7s ease;
         }
+
+        /*stile barra di progresso*/
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            user-select: none;
+        }
+
+        .progress-container {
+            width: 300px;
+            margin: 0 auto;
+            border: black;
+            border-radius: 2px;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 30px;
+            background-color: #4CAF50;
+            transition: width 0.5s;
+        }
+
+        .goal-input {
+            border: none;
+            width: 50px;
+        }
+
+        .barra-superiore {
+            margin-top: 0px;
+
+        }
+
+        .impostaObbiettivo {
+            border: none;
+            background-color: #4CAF50;
+        }
+
+        /*fine stile barra di progresso*/
+        /*inizio stile omino che corre*/
+
+        .running {
+            position: absolute;
+            border: none;
+            margin-left: 20px;
+            transition: 0.7s ease;
+            cursor: pointer;
+            --color: black;
+            --duration: 0.7s;
+
+            .outer {
+                animation: outer var(--duration) linear infinite;
+
+                .body {
+                    background: var(--color);
+                    height: 15px;
+                    width: 8px;
+                    border-radius: 4px;
+                    transform-origin: 4px 11px;
+                    position: relative;
+                    transform: rotate(32deg);
+                    animation: body var(--duration) linear infinite;
+
+                    &:before {
+                        content: "";
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 4px;
+                        bottom: 16px;
+                        left: 0;
+                        position: absolute;
+                        background: var(--color);
+                    }
+
+                    .arm,
+                    .arm:before,
+                    .leg,
+                    .leg:before {
+                        content: "";
+                        width: var(--w, 11px);
+                        height: 4px;
+                        top: var(--t, 0);
+                        left: var(--l, 2px);
+                        border-radius: 2px;
+                        transform-origin: 2px 2px;
+                        position: absolute;
+                        background: var(--c, var(--color));
+                        transform: rotate(var(--r, 0deg));
+                        animation: var(--name, arm-leg) var(--duration) linear infinite;
+                    }
+
+                    .arm {
+                        &:before {
+                            --l: 7px;
+                            --name: arm-b;
+                        }
+
+                        &.front {
+                            --r: 24deg;
+                            --r-to: 164deg;
+
+                            &:before {
+                                --r: -48deg;
+                                --r-to: -36deg;
+                            }
+                        }
+
+                        &.behind {
+                            --r: 164deg;
+                            --r-to: 24deg;
+
+                            &:before {
+                                --r: -36deg;
+                                --r-to: -48deg;
+                            }
+                        }
+                    }
+
+                    .leg {
+                        --w: 12px;
+                        --t: 11px;
+
+                        &:before {
+                            --t: 0;
+                            --l: 8px;
+                        }
+
+                        &.front {
+                            --r: 10deg;
+                            --r-to: 108deg;
+
+                            &:before {
+                                --r: 18deg;
+                                --r-to: 76deg;
+                            }
+                        }
+
+                        &.behind {
+                            --r: 108deg;
+                            --r-to: 10deg;
+                            --c: none;
+
+                            &:before {
+                                --c: var(--color);
+                                --r: 76deg;
+                                --r-to: 18deg;
+                            }
+
+                            &:after {
+                                content: "";
+
+                                height: 4px;
+                                width: 6px;
+                                clip-path: polygon(2px 0, 6px 0, 6px 4px, 0 4px);
+                                border-radius: 0 2px 2px 0;
+                                position: absolute;
+                                background: var(--color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @keyframes outer {
+            50% {
+                transform: translateY(0);
+            }
+
+            25%,
+            75% {
+                transform: translateY(4px);
+            }
+        }
+
+        @keyframes body {
+            50% {
+                transform: rotate(16deg);
+            }
+
+            25%,
+            75% {
+                transform: rotate(24deg);
+            }
+        }
+
+        @keyframes arm-leg {
+            50% {
+                transform: rotate(var(--r-to));
+            }
+        }
+
+        @keyframes arm-b {
+
+            30%,
+            70% {
+                transform: rotate(var(--r-to));
+            }
+        }
+
+        html {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        * {
+            box-sizing: inherit;
+
+            &:before,
+            &:after {
+                box-sizing: inherit;
+            }
+        }
+
+
+        /*fine stile omimo che corre*/
     </style>
 </head>
 
 <body>
-    <button onmouseover="allontana()" onclick="cliccato()" class="cliccami" id="cliccami"
+    <div class="barra-superiore">
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <p>Obiettivo:
+            <input class="goal-input" type="number" id="goal-input" min="1" value="1">
+            <button style="border: none;" onclick="impostaObbiettivo()">&#10003;</button>
+        </p>
+    </div>
+
+    <div class="running" onmouseover="muoviOmino()" onclick="cliccato(), aumentaProgresso()" id="cliccami">
+        <div id="outer" class="outer">
+            <div id="body" class="body">
+                <div id="braccio dietro" class="arm behind"></div>
+                <div id="braccio davanti" class="arm front"></div>
+                <div id="gamba dietro" class="leg behind"></div>
+                <div id="gamba davanti" class="leg front"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--    <button onmouseover="allontana()" onclick="cliccato(), aumentaProgresso()" class="cliccami" id="cliccami"
         style="left: 50px; top: 50px;">CLICCAMI</button>
 </body>
+-->
 
-<script>
-    var click = 0;
-    var larghezzaPagina = window.innerWidth;
-    var altezzaPagina = window.innerHeight;
-
-    function allontana() {
+    <script>
+        var leftBefore = 0;
+        var spostamentoX = 0;
         var cliccami = document.getElementById("cliccami");
-        var spostamentoX = Math.floor(Math.random() * (larghezzaPagina - cliccami.offsetWidth));
-        var spostamentoY = Math.floor(Math.random() * (altezzaPagina - cliccami.offsetHeight));
+        var click = 0;
+        var larghezzaPagina = window.innerWidth - 10;
+        var altezzaPagina = window.innerHeight - 10;
+        var outer = document.getElementById("outer");
+        var body = document.getElementById('body');
+        var braccioDietro = document.getElementById('braccio dietro');
+        var braccioDavanti = document.getElementById('braccio davanti');
+        var gambaDietro = document.getElementById('gamba dietro');
+        var gambaDavanti = document.getElementById('gamba davanti');
+        var altreAnimazioni = document.querySelector('.running');
 
-        cliccami.style.left = spostamentoX + "px";
-        cliccami.style.top = spostamentoY + "px";
-    }
+        // Imposta lo stato di riproduzione di ciascuna animazione su "paused"
+        outer.style.animationPlayState = 'paused';
+        body.style.animationPlayState = 'paused';
+        braccioDietro.style.animationPlayState = 'paused';
+        braccioDavanti.style.animationPlayState = 'paused';
+        gambaDietro.style.animationPlayState = 'paused';
+        gambaDavanti.style.animationPlayState = 'paused';
+        altreAnimazioni.style.setProperty('--duration', '0s');
 
-    function invertiCoordinate() {
-        var cliccami = document.getElementById("cliccami");
-        var spostamentoX = Math.floor(Math.random() * (larghezzaPagina - cliccami.offsetWidth));
-        var spostamentoY = Math.floor(Math.random() * (altezzaPagina - cliccami.offsetHeight));
+        function allontana(spostamentoX, leftBefore) {
+            var cliccami = document.getElementById("cliccami");
+            var spostamentoX = Math.floor(Math.random() * (larghezzaPagina - cliccami.offsetWidth));
+            var spostamentoY = Math.floor(Math.random() * (altezzaPagina - cliccami.offsetHeight));
 
-        cliccami.style.left = cliccami.style.top;
-        cliccami.style.top = spostamentoX + "px";
+            // Chiamare la funzione per ruotare l'omino
+            ruotaOmino(spostamentoX, leftBefore, cliccami);
 
-        setTimeout(function () {
             cliccami.style.left = spostamentoX + "px";
             cliccami.style.top = spostamentoY + "px";
-        }, 10);
-    }
+            leftBefore = spostamentoX;
 
-    function cliccato() {
-        click++;
-        alert("Bravo, hai cliccato il pulsante! Sei arrivato a " + click + " clic.");
-        var spostamentoX = Math.floor(Math.random() * (larghezzaPagina - cliccami.offsetWidth));
-        var spostamentoY = Math.floor(Math.random() * (altezzaPagina - cliccami.offsetHeight));
-        cliccami.style.left = spostamentoX + "px";
-        cliccami.style.top = spostamentoY + "px";
-    }
-</script>
+            setTimeout(ominoFermo, 100);
+        }
+
+        //animazioni omino
+
+        function ruotaOmino(spostamentoX, leftBefore, cliccami) {
+            if (parseInt(leftBefore) > spostamentoX) {
+                cliccami.style.transform = "scaleX(-1)";
+                console.log("inverito");
+            } else {
+                cliccami.style.transform = "scaleX(1)";
+                console.log("non invertito");
+            }
+        }
+
+
+
+        function muoviOmino() {
+
+            outer.style.animationPlayState = 'running';
+            body.style.animationPlayState = 'running';
+            braccioDietro.style.animationPlayState = 'running';
+            braccioDavanti.style.animationPlayState = 'running';
+            gambaDietro.style.animationPlayState = 'running';
+            gambaDavanti.style.animationPlayState = 'running';
+            altreAnimazioni.style.setProperty('--duration', '0.7s');
+            setTimeout(allontana, 100);
+        }
+
+        function ominoFermo() {
+            outer.style.animationPlayState = 'paused';
+            body.style.animationPlayState = 'paused';
+            braccioDietro.style.animationPlayState = 'paused';
+            braccioDavanti.style.animationPlayState = 'paused';
+            gambaDietro.style.animationPlayState = 'paused';
+            gambaDavanti.style.animationPlayState = 'paused';
+            altreAnimazioni.style.setProperty('--duration', '0s');
+        }
+
+        function cliccato() {
+            click++;
+            // alert("Bravo, hai cliccato il pulsante! Sei arrivato a " + click + " clic.");
+            var spostamentoX = Math.floor(Math.random() * (larghezzaPagina - cliccami.offsetWidth));
+            var spostamentoY = Math.floor(Math.random() * (altezzaPagina - cliccami.offsetHeight));
+            cliccami.style.left = spostamentoX + "px";
+            cliccami.style.top = spostamentoY + "px";
+        }
+
+        //barra di progresso del pulsante
+
+        var obbiettivo = 1; // Obiettivo predefinito
+        var progresso = 0; // Inizio progresso
+
+        // Funzione per incrementare il progresso
+        function aumentaProgresso() {
+            progresso += 1;
+            aggiornaBarra();
+        }
+
+        // Funzione per aggiornare la barra di progresso
+        function aggiornaBarra() {
+            var progressBar = document.getElementById("progress-bar");
+            var percent = (progresso / obbiettivo) * 100;
+            progressBar.style.width = percent + "%";
+
+            if (progresso >= obbiettivo) {
+                alert("Hai raggiunto l'obiettivo!");
+            }
+        }
+
+        // Funzione per impostare un nuovo obiettivo
+        function impostaObbiettivo() {
+            var nuovoObbiettivo = document.getElementById("goal-input").value;
+            if (nuovoObbiettivo >= 1) {
+                obbiettivo = parseInt(nuovoObbiettivo);
+                progresso = 0;
+                aggiornaBarra();
+            }
+        }
+
+        //fine barra di progresso del pulsante
+    </script>
 
 </html>
