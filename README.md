@@ -66,10 +66,10 @@ The project is currently in active development and is regularly updated with new
 
 **CangheLog**
 
-**V 0.1**: Basic implementation of moving the target without graphics.
+**v0.1**: Basic implementation of moving the target without graphics.
 
-**V 0.2**: Basic graphical implementation with definition of the game area.
+**v0.2**: Basic graphical implementation with definition of the game area.
 
-**V 0.3**: Moving and animated man target implementation, scorebar and click goal settings. 
+**v0.3**: Moving and animated man target implementation, scorebar and click goal settings. 
 
 
