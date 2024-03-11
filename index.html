@@ -593,7 +593,11 @@
                     </ul>
 
                 </li>
-               
+                <li>
+                    <ul>
+                        <a class="desktop-item">Tempo: <span class="desktop-item" id="tempo-output"></span> </a>
+                    </ul>
+                </li>
             </ul>
             <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
         </div>
@@ -630,6 +634,15 @@
         var gambaDavanti = document.getElementById('gamba davanti');
         var altreAnimazioni = document.querySelector('.running');
         var durataTransizione = document.querySelector('.running');
+        let conteggioAvviato = false;
+
+        let startTime; // Variabile globale per memorizzare il tempo di inizio
+        let timerInterval; // Variabile globale per memorizzare l'intervallo di aggiornamento del timer
+        let elapsedTime = 0; // Variabile globale per memorizzare il tempo trascorso
+
+        var tempoMassimo = document.getElementById("tempo-massimo");
+    
+        document.getElementById("tempo-output").textContent = 0;
 
         // inizio funzioni difficoltà
 
@@ -654,7 +667,32 @@
         }
         //fine funzioni difficoltà 
 
+        // cronometro gioco
+
        
+        function startCounting() {
+            startTime = new Date().getTime(); // Memorizza il tempo di inizio
+            timerInterval = setInterval(updateCounter, 1000); // Avvia l'aggiornamento ogni secondo (1000 ms)
+        }
+
+        function updateCounter() {
+            const currentTime = new Date().getTime(); // Ottieni il tempo corrente
+            elapsedTime = Math.floor((currentTime - startTime) / 1000); // Calcola il tempo trascorso in secondi
+            console.log(`${elapsedTime} secondi`);
+            document.getElementById("tempo-output").textContent = elapsedTime;
+            timer();
+        }
+
+        function stopCounting() {
+            clearInterval(timerInterval); // Ferma il conteggio del tempo
+            console.log("Conteggio del tempo fermato");
+
+
+
+        }
+
+
+        // fine cronometro gioco
 
 
         // Imposta lo stato di riproduzione di ciascuna animazione su "paused"
@@ -665,6 +703,7 @@
         gambaDietro.style.animationPlayState = 'paused';
         gambaDavanti.style.animationPlayState = 'paused';
         altreAnimazioni.style.setProperty('--duration', '0s');
+
 
         function allontana(spostamentoX) {
             var cliccami = document.getElementById("cliccami");
@@ -680,6 +719,10 @@
 
             cliccami.style.left = spostamentoX + "px";
             cliccami.style.top = spostamentoY + "px";
+            if (!conteggioAvviato) {
+                startCounting(); // Avvia il conteggio solo se non è stato avviato prima
+                conteggioAvviato = true; // Imposta la variabile a true per indicare che il conteggio è stato avviato
+            }
             leftBefore = spostamentoX; // Aggiornare la variabile globale
             setTimeout(ominoFermo, 100);
         }
@@ -733,6 +776,7 @@
         var obbiettivo = 1; // Obiettivo predefinito
         var progresso = 0; // Inizio progresso
 
+
         // Funzione per incrementare il progresso
         function aumentaProgresso() {
             progresso += 1;
@@ -747,6 +791,14 @@
 
             if (progresso >= obbiettivo) {
                 alert("Hai raggiunto l'obiettivo!");
+                stopCounting();
+
+            }
+        }
+
+        function timer(){
+            if(elapsedTime<=tempoMassimo){
+                tempoScaduto();
             }
         }
 
@@ -762,6 +814,9 @@
                 obbiettivo = parseInt(nuovoObbiettivo);
                 progresso = 0;
                 aggiornaBarra();
+                conteggioAvviato = false;
+                document.getElementById("tempo-output").textContent = 0;
+
             }
         }
 
